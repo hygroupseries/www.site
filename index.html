@@ -5,10 +5,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>hygroupseries's Home</title>
-  <link rel="stylesheet" href="./assets/font/font.css" as="style">
+  <link rel="stylesheet" href="./assets/font/font.css">
   <link rel="icon" href="assets/mygirl.jpg" type="image/x-icon">
   <script defer src="/_vercel/insights/script.js"></script>
   <link href="./output.css" rel="stylesheet">
+  <style>
+    #busuanzi_container {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #fff;
+      font-size: 12px;
+      flex-direction: column;
+      align-items: flex-end;
+      display: none;
+    }
+
+    .transition-background {
+      transition: background 300ms ease, transform 300ms ease;
+    }
+
+    .hover\:bg-hygroupseries:hover {
+      background-image: radial-gradient(circle at 30% 30%, #5eead4, #2563eb);
+      background-size: 150% 150%;
+      background-position: center;
+      transform: translateY(-2px);
+    }
+
+    @media (min-height: 420px) {
+      #intro {
+        padding-top: 1rem;
+      }
+    }
+
+    @media (min-height: 520px) {
+      #intro {
+        padding-top: 2rem;
+      }
+    }
+
+    @media (min-height: 620px) {
+      #intro {
+        padding-top: 3rem;
+      }
+    }
+
+    @media (min-height: 720px) {
+      #intro {
+        padding-top: 4rem;
+      }
+    }
+
+    @media (min-height: 800px) {
+      #intro {
+        padding-top: 5rem;
+      }
+    }
+
+    @media (min-height: 850px) {
+      #intro {
+        padding-top: 8rem;
+      }
+    }
+  </style>
 </head>
 
 <!-- Cloudflare tag 
@@ -54,65 +113,29 @@
       <path d="M11 12h1v4h1"></path>
     </svg>
   </div>
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-  <div id="busuanzi_container">
+  <!-- <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div id="busuanzi_container" aria-live="polite" aria-atomic="true">
     <span id="busuanzi_container_site_pv">Page Views <span id="busuanzi_value_site_pv"></span></span>
     <span id="busuanzi_container_site_uv">Visitors <span id="busuanzi_value_site_uv"></span></span>
-  </div>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"80aa2a0d697c40099ad0752e62bd81a2","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+  </div> -->
+  <script>
+    (function revealBusuanzi() {
+      const container = document.getElementById('busuanzi_container');
+      if (!container) return;
+      const pv = document.getElementById('busuanzi_value_site_pv');
+      const uv = document.getElementById('busuanzi_value_site_uv');
+      const reveal = () => {
+        if ((pv && pv.textContent.trim()) || (uv && uv.textContent.trim())) {
+          container.style.display = 'flex';
+          observer.disconnect();
+        }
+      };
+      const observer = new MutationObserver(reveal);
+      [pv, uv].forEach(target => target && observer.observe(target, { childList: true }));
+      setTimeout(() => observer.disconnect(), 10000);
+    })();
+  </script>
+  <script src="./stars.js"></script>
 </body>
 
 </html>
-
-<script src="./stars.js"></script>
-
-<style>
-  #busuanzi_container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: #fff;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-</style>
-
-<style>
-  @media (min-height: 420px) {
-    #intro {
-      padding-top: 1rem;
-    }
-
-    @media (min-height: 520px) {
-      #intro {
-        padding-top: 2rem;
-      }
-
-      @media (min-height: 620px) {
-        #intro {
-          padding-top: 3rem;
-        }
-
-        @media (min-height: 720px) {
-          #intro {
-            padding-top: 4rem;
-          }
-
-          @media (min-height: 800px) {
-            #intro {
-              padding-top: 5rem;
-            }
-
-            @media (min-height: 850px) {
-              #intro {
-                padding-top: 8rem;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-</style>
