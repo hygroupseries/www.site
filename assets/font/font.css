@@ -1,9 +1,9 @@
 @font-face {
   font-family: NotoSansSC;
-  src: url("font-file/NotoSansSC-Regular.woff2") format("woff2");
+  src: url("/assets/font/font-file/NotoSansSC-Regular.woff2") format("woff2");
 }
 
 @font-face {
   font-family: din;
-  src: url("font-file/din-regular.woff2") format("woff2");
+  src: url("/assets/font/font-file/din-regular.woff2") format("woff2");
 }
