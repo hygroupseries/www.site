@@ -701,8 +701,16 @@ video {
   transition-duration: 300ms;
 }
 
-.hover\:bg-qer:hover {
-  background-image: url('./assets/girlWithCat.png');
+/* .hover\:bg-hygroupseries:hover {
+  background-image: url('./assets/2.jpg');
+} */
+.hover\:bg-hygroupseries:hover {
+    background-image:
+      radial-gradient(circle at 30% 30%, rgba(94,234,212,0.8), rgba(37,99,235,0.8)),
+      url("./assets/2.jpg");
+    background-size: cover;
+    background-position: center;
+    transform: translateY(-2px);
 }
 
 .hover\:underline:hover {

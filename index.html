@@ -25,12 +25,20 @@
       transition: background 300ms ease, transform 300ms ease;
     }
 
-    .hover\:bg-hygroupseries:hover {
+    /* .hover\:bg-hygroupseries:hover {
       background-image: radial-gradient(circle at 30% 30%, #5eead4, #2563eb);
       background-size: 150% 150%;
       background-position: center;
       transform: translateY(-2px);
-    }
+    } */
+    .hover\:bg-hygroupseries:hover {
+    background-image:
+      radial-gradient(circle at 30% 30%, rgba(94,234,212,0.8), rgba(37,99,235,0.8)),
+      url("./assets/2.jpg");
+    background-size: cover;
+    background-position: center;
+    transform: translateY(-2px);
+}
 
     @media (min-height: 420px) {
       #intro {
