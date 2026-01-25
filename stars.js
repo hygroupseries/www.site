@@ -1,143 +1,192 @@
-console.info('welcome here!');
+console.info('✨ Welcome to hygroupseries\'s homepage!');
 
 const canvas = document.getElementById('stars');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
 const ctx = canvas.getContext("2d");
 
-const totalPixels = window.innerHeight * window.innerWidth;
-const starCount = totalPixels / 1000;
-const meteorCount = window.innerWidth / 300;
+let stars = [];
+let meteors = [];
+let animationId = null;
+
+function initCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  const totalPixels = window.innerHeight * window.innerWidth;
+  const starCount = Math.min(totalPixels / 1000, 2000); // 限制最大星星数量以提升性能
+  const meteorCount = Math.max(1, Math.floor(window.innerWidth / 300));
+  
+  stars = [];
+  meteors = [];
+  
+  for (let i = 0; i < starCount; i++) {
+    stars.push(new Star());
+  }
+  
+  for (let i = 0; i < meteorCount; i++) {
+    meteors.push(new Meteor());
+  }
+}
 
 class Star {
   constructor() {
-    this.x = Math.floor(Math.random() * canvas.width);
-    this.y = Math.floor(Math.random() * canvas.height);
-    this.size = Math.floor(Math.random() * 3) + 1;
-    this.speed = (window.innerWidth * window.innerWidth / 1117000) * (Math.random() * 0.1 + 0.01);
-    this.color = Math.random() > 0.9 ? '#ffffff' : '#cccccc';
-    this.blinkDuration = Math.random() * 15000 + 2000;
-    this.isBrighter = true;
-    this.globalAlpha = 0;
-    this.minAlpha = Math.random() * 0.4 + 0.001; // 最低的亮度
-    this.blinkStartTime = Date.now();
+    this.reset();
   }
 
-  blink() {
-    const elapsedTime = Date.now() - this.blinkStartTime;
-    const progress = elapsedTime / (this.blinkDuration / 2); // 前半部分逐渐变暗（0 到 1）
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 1;
+    this.speed = (canvas.width / 1000) * (Math.random() * 0.1 + 0.01);
+    this.color = Math.random() > 0.9 ? '#ffffff' : '#cccccc';
+    this.blinkDuration = Math.random() * 15000 + 2000;
+    this.isBrighter = Math.random() > 0.5;
+    this.globalAlpha = Math.random();
+    this.minAlpha = Math.random() * 0.4 + 0.001;
+    this.blinkStartTime = performance.now();
+  }
+
+  blink(now) {
+    const elapsedTime = now - this.blinkStartTime;
+    const progress = elapsedTime / (this.blinkDuration / 2);
+    
     if (!this.isBrighter) {
-      this.globalAlpha = 1 - progress; // 根据进度逐渐降低亮度
-      if (this.globalAlpha <= this.minAlpha) {  // 最暗了
-        this.setBlinkState(true);
+      this.globalAlpha = Math.max(this.minAlpha, 1 - progress);
+      if (this.globalAlpha <= this.minAlpha) {
+        this.setBlinkState(true, now);
       }
-    } else { // 变亮
-      this.globalAlpha = progress; // 根据进度逐渐降低亮度
-      if (this.globalAlpha >= 1) {  // 最亮了
-        this.setBlinkState(false);
+    } else {
+      this.globalAlpha = Math.min(1, this.minAlpha + progress);
+      if (this.globalAlpha >= 1) {
+        this.setBlinkState(false, now);
       }
     }
   }
 
-  setBlinkState(isBrighter) {
+  setBlinkState(isBrighter, now) {
     this.globalAlpha = isBrighter ? this.minAlpha : 1;
     this.isBrighter = isBrighter;
-    this.blinkStartTime = Date.now();
+    this.blinkStartTime = now;
   }
 
   move() {
     this.x += this.speed;
     if (this.x > canvas.width) {
       this.x = 0;
+      this.y = Math.random() * canvas.height;
     }
   }
 
   draw() {
     ctx.fillStyle = this.color;
     ctx.globalAlpha = this.globalAlpha;
-    ctx.fillRect(this.x, this.y, 2, 2);
-  }
-}
-
-const stars = [];
-const meteors = [];
-
-function createStars() {
-  for (let i = 0; i < starCount; i++) {
-    const star = new Star();
-    stars.push(star);
+    ctx.fillRect(this.x, this.y, this.size, this.size);
   }
 }
 
 class Meteor {
   constructor() {
+    this.sleep = false;
+    this.sleepTimeout = null;
     this.reborn();
   }
 
   reborn() {
-    this.startX = Math.floor(Math.random() * canvas.width);
-    this.startY = Math.floor(Math.random() * 100);
+    this.startX = Math.random() * canvas.width * 1.2;
+    this.startY = Math.random() * 150 - 50;
     this.x = this.startX;
     this.y = this.startY;
-    this.length = Math.floor(Math.random() * 50) + 100;
-    this.duration = 3.5 * this.length;
+    this.length = Math.floor(Math.random() * 80) + 80;
+    this.speed = Math.random() * 2 + 2;
+    this.duration = 4 * this.length;
     this.endX = this.x - this.duration;
     this.endY = this.y + this.duration;
+    this.sleep = false;
   }
 
   move() {
     if (this.sleep) return;
-    this.x -= 3;
-    this.y += 3;
+    this.x -= this.speed;
+    this.y += this.speed;
     if (this.x <= this.endX || this.y >= this.endY) {
       this.sleep = true;
-      const sleepTime = Math.floor(Math.random() * 8000) + 2000;
-      setTimeout(() => {
+      const sleepTime = Math.floor(Math.random() * 10000) + 3000;
+      this.sleepTimeout = setTimeout(() => {
         this.reborn();
-        this.sleep = false;
       }, sleepTime);
     }
   }
 
-  // 绘制流星
   draw() {
     if (this.sleep) return;
     ctx.fillStyle = "#ffffff";
-    for (let i = 0; i < this.length; ++i) {
-      ctx.globalAlpha = i / this.length;
-      const progress = (this.y - this.startY) / this.duration;
+    const progress = (this.y - this.startY) / this.duration;
+    
+    for (let i = 0; i < this.length; i++) {
+      let alpha = i / this.length;
       if (progress < 0.2) {
-        ctx.globalAlpha = ctx.globalAlpha * progress / 0.2;
+        alpha *= progress / 0.2;
+      } else if (progress > 0.7) {
+        alpha *= (1 - progress) / 0.3;
       }
-      if (progress > 0.7) {
-        ctx.globalAlpha = ctx.globalAlpha * (1 - progress) / 0.3;
-      }
+      ctx.globalAlpha = alpha;
       ctx.fillRect(this.x - i, this.y + i, 1, 1);
+    }
+  }
+  
+  cleanup() {
+    if (this.sleepTimeout) {
+      clearTimeout(this.sleepTimeout);
     }
   }
 }
 
-function createMeteors() {
-  for (let i = 0; i < meteorCount; i++) {
-    const meteor = new Meteor();
-    meteors.push(meteor);
-  }
-}
-
-function draw() {
+function draw(now) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
   for (const star of stars) {
     star.move();
-    star.blink();
+    star.blink(now);
     star.draw();
   }
+  
   for (const meteor of meteors) {
     meteor.move();
     meteor.draw();
   }
-  requestAnimationFrame(draw);
+  
+  animationId = requestAnimationFrame(draw);
 }
 
-createStars();
-createMeteors();
-draw();
+// 防抖的resize处理
+let resizeTimeout;
+function handleResize() {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    meteors.forEach(m => m.cleanup());
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+    }
+    initCanvas();
+    animationId = requestAnimationFrame(draw);
+  }, 250);
+}
+
+window.addEventListener('resize', handleResize);
+
+// 页面可见性处理 - 节省资源
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+  } else {
+    if (!animationId) {
+      animationId = requestAnimationFrame(draw);
+    }
+  }
+});
+
+// 初始化
+initCanvas();
+animationId = requestAnimationFrame(draw);

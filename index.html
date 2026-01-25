@@ -1,12 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>hygroupseries's Home</title>
+  <title>hygroupseries - 软件开发者 | 个人主页</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="hygroupseries的个人主页 - 一位热爱编程的软件开发者，专注于创造优秀的软件产品。">
+  <meta name="keywords" content="hygroupseries, 软件开发, 程序员, developer, coding, GitHub">
+  <meta name="author" content="hygroupseries">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="hygroupseries - 软件开发者">
+  <meta property="og:description" content="一位热爱编程的软件开发者，专注于创造优秀的软件产品。">
+  <meta property="og:image" content="/assets/mygirl.jpg">
+  <meta property="og:url" content="https://www.qiaohaoyu.tech">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@hygroupseries">
+  <meta name="twitter:title" content="hygroupseries - 软件开发者">
+  <meta name="twitter:description" content="一位热爱编程的软件开发者，专注于创造优秀的软件产品。">
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#2c5079">
+  
   <link rel="stylesheet" href="/assets/font/font.css">
   <link rel="icon" href="/assets/mygirl.jpg" type="image/x-icon">
+  <link rel="canonical" href="https://www.qiaohaoyu.tech">
   <!-- <script defer src="/_vercel/insights/script.js"></script> -->
   <link href="/output.css" rel="stylesheet">
   <style>
@@ -38,6 +62,66 @@
       background-size: cover;
       background-position: center;
       transform: translateY(-2px);
+    }
+
+    /* 淡入动画 */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+
+    /* 链接悬停效果 */
+    #links a {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    #links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background: linear-gradient(90deg, #5eead4, #2563eb);
+      transition: width 0.3s ease;
+    }
+
+    #links a:hover::after {
+      width: 100%;
+    }
+
+    /* 头像脉冲效果 */
+    .avatar-pulse {
+      box-shadow: 0 0 0 0 rgba(94, 234, 212, 0.4);
+      animation: pulse-ring 2s infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        box-shadow: 0 0 0 0 rgba(94, 234, 212, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(94, 234, 212, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(94, 234, 212, 0);
+      }
     }
 
     @media (min-height: 420px) {
@@ -90,25 +174,23 @@
       text-3xl text-green-400 whitespace-nowrap
       ">
     <div
-      class="w-24 h-24 mb-5 duration-300 bg-contain border-2 rounded-full bg-xiang hover:bg-hygroupseries transition-background">
+      class="w-24 h-24 mb-5 duration-300 bg-contain border-2 rounded-full bg-xiang hover:bg-hygroupseries transition-background avatar-pulse animate-fadeInUp"
+      style="opacity: 0;">
     </div>
-    <span> hello, I'm hygroupseries </span>
+    <span class="inline-block animate-fadeInUp delay-100" style="opacity: 0;"> 👋 Hello, I'm <strong>hygroupseries</strong> </span>
     <br>
     <div id="desp" class="mt-5">
-      <span class="text-2xl"> a software developer </span>
+      <span class="text-2xl inline-block animate-fadeInUp delay-200" style="opacity: 0;"> 🚀 A passionate software developer </span>
       <br>
-      <span class="text-2xl"> passionate about coding
-      </span>
+      <span class="text-2xl inline-block animate-fadeInUp delay-300" style="opacity: 0;"> 💻 Building amazing things with code </span>
       <br>
-      <span class="text-2xl"> currently working at <a href="https://github.com/hygroupseries" target="_blank"
-          class="hover:underline"> github </a> </span>
+      <span class="text-2xl inline-block animate-fadeInUp delay-400" style="opacity: 0;"> 🌐 Open source enthusiast </span>
       <br>
     </div>
-    <div id="links" class="mt-5">
-      <span class="text-xl hover:underline"> <a href="http://blog.qiaohaoyu.tech" target="_blank"> Blog </a></span> ·
-      <span class="text-xl hover:underline"> <a href="https://github.com/hygroupseries" target="_blank"> Github</a></span> ·
-      <span class="text-xl hover:underline"> <a href="https://twitter.com/hygroupseries" target="_blank">
-          Twitter</a></span>
+    <div id="links" class="mt-5 animate-fadeInUp delay-400" style="opacity: 0;">
+      <span class="text-xl"> <a href="http://blog.qiaohaoyu.tech" target="_blank" rel="noopener noreferrer">Blog</a></span> ·
+      <span class="text-xl"> <a href="https://github.com/hygroupseries" target="_blank" rel="noopener noreferrer">GitHub</a></span> ·
+      <span class="text-xl"> <a href="https://twitter.com/hygroupseries" target="_blank" rel="noopener noreferrer">Twitter</a></span>
     </div>
   </div>
   <div class="absolute hidden text-white opacity-30 hover:opacity-100 right-1 top-1">
